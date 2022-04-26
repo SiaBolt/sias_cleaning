@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:siascleaning/utils/theme.dart';
 
 import '../../utils/core.dart';
 import '../../utils/preference_sevice.dart';
@@ -52,11 +53,22 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Colors.grey,
-        child: Image.asset(
-          "assets/images/splash.png",
-          fit: BoxFit.cover,
-        ));
+    return Scaffold(
+      body: Container(
+          width: MediaQuery.of(context).size.width,
+          color: Colors.indigo,
+          child: Column(
+            children: [
+              Image.asset(
+                "assets/images/splash.png",
+                fit: BoxFit.cover,
+              ),
+              const Text(
+                "Sia's cleaning",
+                style: TextStyle(fontSize: 26, color: Colors.white),
+              ),
+            ],
+          )),
+    );
   }
 }

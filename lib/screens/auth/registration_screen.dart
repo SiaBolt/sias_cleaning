@@ -1,23 +1,23 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:siascleaning/screens/auth/registration_screen.dart';
-import 'package:siascleaning/screens/main_page/main_page.dart';
 import 'package:siascleaning/utils/theme.dart';
 
-class LoginScreen extends StatefulWidget {
-  static const String routeName = "/login";
+import '../../data/model/user.dart';
+
+class RegistrationScreen extends StatefulWidget {
+  static const String routeName = "/registration";
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen>
+class _RegistrationScreenState extends State<RegistrationScreen>
     with TickerProviderStateMixin {
   late AnimationController controller1;
   late AnimationController controller2;
@@ -25,26 +25,13 @@ class _LoginScreenState extends State<LoginScreen>
   late Animation<double> animation2;
   late Animation<double> animation3;
   late Animation<double> animation4;
-
-  void singIn(String email, String password) async {
-    await _auth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((uid) => {
-              Fluttertoast.showToast(msg: 'Login Successful'),
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  MainPage.routeName, (route) => false),
-            })
-        .catchError((e) {
-      Fluttertoast.showToast(msg: e!.message);
-    });
-  }
-
   final _auth = FirebaseAuth.instance;
 
+  String username = '';
   String email = '';
-
+  String dob = '';
+  String number = '';
   String password = '';
-
   @override
   void initState() {
     super.initState();
@@ -82,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen>
 
     controller2 = AnimationController(
       vsync: this,
-      duration: Duration(
+      duration: const Duration(
         seconds: 5,
       ),
     );
@@ -109,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen>
         setState(() {});
       });
 
-    Timer(Duration(milliseconds: 2500), () {
+    Timer(const Duration(milliseconds: 2500), () {
       controller1.forward();
     });
 
@@ -177,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen>
                       child: Padding(
                         padding: EdgeInsets.only(top: size.height * .1),
                         child: const Text(
-                          'Sia\'s cleaning',
+                          'Registration Form',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 30,
@@ -189,55 +176,33 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
                     ),
                     Expanded(
-                      flex: 7,
+                      flex: 10,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          component1(Icons.account_circle_outlined,
+                              'User name...', false, false),
                           component1(
                               Icons.email_outlined, 'Email...', false, true),
+                          component1(Icons.call, 'Tell-Number...', false, true),
                           component1(
-                              Icons.lock_outline, 'Password...', true, false),
+                              Icons.date_range, 'Date of birth', false, true),
+                          component1(
+                              Icons.lock_outline, 'Password...', false, false),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               component2(
-                                'LOGIN',
+                                'Register',
                                 2.58,
                                 () {
                                   HapticFeedback.lightImpact();
-                                  singIn(email, password);
-                                  Fluttertoast.showToast(
-                                      msg: 'Login button pressed');
+                                  signUp(email, password);
                                 },
                               ),
                               SizedBox(width: size.width / 20),
-                              component2(
-                                'Forgotten password!',
-                                2.58,
-                                () {
-                                  HapticFeedback.lightImpact();
-                                },
-                              ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 6,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          component2(
-                            'Create a new Account',
-                            2,
-                            () {
-                              HapticFeedback.lightImpact();
-                              Navigator.pushNamed(
-                                  context, RegistrationScreen.routeName);
-                            },
-                          ),
-                          SizedBox(height: size.height * .05),
                         ],
                       ),
                     ),
@@ -251,12 +216,40 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
+  postDetailsToFirestore() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel();
+
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+    userModel.username = username;
+    userModel.number = number;
+    userModel.dob = dob;
+
+    await firebaseFirestore
+        .collection('users')
+        .doc(user.uid)
+        .set(userModel.toMap());
+
+    Fluttertoast.showToast(msg: 'Account created successfully');
+    Navigator.pop(context);
+  }
+
+  void signUp(String email, String password) async {
+    await _auth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((value) {
+      postDetailsToFirestore();
+    }).catchError((e) {
+      Fluttertoast.showToast(msg: e.message);
+    });
+  }
+
   Widget component1(
-    IconData icon,
-    String hintText,
-    bool isPassword,
-    bool isEmail,
-  ) {
+      IconData icon, String hintText, bool isPassword, bool isEmail) {
     Size size = MediaQuery.of(context).size;
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
@@ -276,10 +269,16 @@ class _LoginScreenState extends State<LoginScreen>
           ),
           child: TextField(
             onChanged: (value) => setState(() {
-              if (hintText == "Email...") {
+              if (hintText == "User name...") {
+                username = value;
+              } else if (hintText == "Email...") {
                 email = value;
-              } else {
+              } else if (hintText == "Tell-Number...") {
+                number = value;
+              } else if (hintText == "Password...") {
                 password = value;
+              } else {
+                dob = value;
               }
             }),
             style: TextStyle(color: Colors.white.withOpacity(.8)),
@@ -314,19 +313,17 @@ class _LoginScreenState extends State<LoginScreen>
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
           onTap: voidCallback,
-          child: Center(
-            child: Container(
-              height: size.width / 8,
-              width: size.width / width,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.05),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Text(
-                string,
-                style: TextStyle(color: Colors.white.withOpacity(.8)),
-              ),
+          child: Container(
+            height: size.width / 8,
+            width: size.width / width,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(.05),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Text(
+              string,
+              style: TextStyle(color: Colors.white.withOpacity(.8)),
             ),
           ),
         ),

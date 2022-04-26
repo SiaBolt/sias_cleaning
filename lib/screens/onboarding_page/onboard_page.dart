@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:siascleaning/screens/auth/login.dart';
+import 'package:siascleaning/screens/splash/splash_screen.dart';
 
 import '../main_page/main_page.dart';
 
@@ -21,9 +23,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     int isViewed = 0;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('onBoard', isViewed);
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => MainPage()),
-    );
+    Navigator.of(context).pushNamed(SplashScreen.routeName);
   }
 
   Widget _buildFullscreenImage() {

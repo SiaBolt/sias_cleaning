@@ -10,3 +10,5 @@ final theme = ThemeData(
   ),
   colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.cyan[600]),
 );
+
+const Color mainColor = Color.fromRGBO(144, 202, 249, 1);
