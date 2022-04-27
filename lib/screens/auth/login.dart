@@ -206,8 +206,6 @@ class _LoginScreenState extends State<LoginScreen>
                                 () {
                                   HapticFeedback.lightImpact();
                                   singIn(email, password);
-                                  Fluttertoast.showToast(
-                                      msg: 'Login button pressed');
                                 },
                               ),
                               SizedBox(width: size.width / 20),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 final theme = ThemeData(
-  primaryColor: Colors.lightBlue[800],
+  backgroundColor: Colors.indigo,
+  primaryColor: Colors.indigo[800],
   fontFamily: 'Georgia',
   textTheme: const TextTheme(
     headline1: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
