@@ -5,10 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siascleaning/screens/auth/registration_screen.dart';
 import 'package:siascleaning/screens/main_page/main_page.dart';
 import 'package:siascleaning/utils/theme.dart';
+
+import '../../data/provider_values.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "/login";
@@ -206,6 +209,13 @@ class _LoginScreenState extends State<LoginScreen>
                                 () {
                                   HapticFeedback.lightImpact();
                                   singIn(email, password);
+                                  context
+                                      .read<ProviderValues>()
+                                      .fetchQuestions();
+                                  context.read<ProviderValues>().getUserInfo();
+                                  context
+                                      .read<ProviderValues>()
+                                      .fetchMyOrders();
                                 },
                               ),
                               SizedBox(width: size.width / 20),
