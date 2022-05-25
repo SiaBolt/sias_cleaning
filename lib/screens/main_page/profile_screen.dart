@@ -266,60 +266,68 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: const Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 18.0, top: 20),
-                                    child: Text(
-                                      "email :",
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
+                                Column(children: [
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    child: const Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 18.0, top: 20),
+                                      child: Text(
+                                        "email :",
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 18.0, top: 20),
-                                    child: Text(
-                                      "${provider.loggedInUser?.email}",
-                                      style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 18.0, top: 20),
+                                      child: Text(
+                                        "${provider.loggedInUser?.email}",
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: const Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 18.0, top: 20),
-                                    child: Text(
-                                      "Tel Number :",
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
+                                ]),
+                                Column(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      child: const Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 18.0, top: 20),
+                                        child: Text(
+                                          "Tel Number :",
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 18.0, top: 20),
-                                    child: Text(
-                                      "${provider.loggedInUser?.number}",
-                                      style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
+                                    Container(
+                                      width: 100,
+                                      alignment: Alignment.topLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 18.0, top: 20),
+                                        child: Text(
+                                          "${provider.loggedInUser?.number}",
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ],
                             ),
