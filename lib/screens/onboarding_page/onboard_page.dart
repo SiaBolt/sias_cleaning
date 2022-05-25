@@ -28,11 +28,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   Widget _buildFullscreenImage() {
     return Image.asset(
-      'assets/images/fullscreen.jpg',
-      fit: BoxFit.cover,
+      'assets/images/fullscreen1.jpg',
+      fit: BoxFit.fitWidth,
       height: double.infinity,
       width: double.infinity,
-      alignment: Alignment.center,
+      alignment: Alignment.topCenter,
     );
   }
 
@@ -47,20 +47,21 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    const bodyStyle = TextStyle(fontSize: 19.0);
+    const bodyStyle = TextStyle(fontSize: 22.0, color: Colors.white);
 
     const pageDecoration = PageDecoration(
-      titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
+      titleTextStyle: TextStyle(
+          fontSize: 38.0, fontWeight: FontWeight.w700, color: Colors.white),
       bodyTextStyle: bodyStyle,
       imagePadding: EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 16.0),
       titlePadding: EdgeInsets.fromLTRB(16.0, 30.0, 16.0, 16.0),
       bodyPadding: EdgeInsets.fromLTRB(16.0, 100.0, 16.0, 16.0),
-      pageColor: Color.fromRGBO(144, 202, 249, 0.2),
+      pageColor: Colors.blue,
     );
 
     return IntroductionScreen(
       key: introKey,
-      globalBackgroundColor: Colors.white,
+      globalBackgroundColor: Color.fromRGBO(144, 202, 249, 1),
       globalHeader: const Align(
         alignment: Alignment.topRight,
         child: SafeArea(
@@ -68,7 +69,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             padding: EdgeInsets.only(top: 16, right: 16),
             child: Text(
               'Sia\'s cleaning',
-              style: TextStyle(color: Colors.blueAccent),
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
@@ -86,30 +90,27 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       // ),
       pages: [
         PageViewModel(
-          title: "Fractional shares",
-          body:
-              "Instead of having to buy an entire share, invest any amount you want.",
+          title: "Need help with cleaning? ",
+          body: "Trust us to take care of your home.",
           image: _buildImage('onboard1.png'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Learn as you go",
-          body:
-              "Download the Stockpile app and master the market with our mini-lesson.",
+          title: "Welcome to Sia's application",
+          body: "cleaning service application",
           image: _buildImage('onboard2.png', 350),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Kids and teens",
+          title: "Safety and security.",
           body:
-              "Kids and teens can track their stocks 24/7 and place trades that you approve.",
+              "Just one Tap book maid from anywhere and anytime. Verified workers in terms of safety and security.",
           image: _buildImage('onboard3.jpg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Full Screen Page",
-          body:
-              "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis.",
+          title: "Trained workers.",
+          body: "Providing well trained and polite workers.",
           image: _buildFullscreenImage(),
           decoration: pageDecoration.copyWith(
             contentMargin: const EdgeInsets.symmetric(horizontal: 16),
@@ -118,46 +119,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             imageFlex: 3,
           ),
         ),
-        // PageViewModel(
-        //   title: "Another title page",
-        //   body: "Another beautiful body text for this example onboarding",
-        //   image: _buildImage('img2.jpg'),
-        //   footer: ElevatedButton(
-        //     onPressed: () {
-        //       introKey.currentState?.animateScroll(0);
-        //     },
-        //     child: const Text(
-        //       'FooButton',
-        //       style: TextStyle(color: Colors.white),
-        //     ),
-        //     style: ElevatedButton.styleFrom(
-        //       primary: Colors.lightBlue,
-        //       shape: RoundedRectangleBorder(
-        //         borderRadius: BorderRadius.circular(8.0),
-        //       ),
-        //     ),
-        //   ),
-        //   decoration: pageDecoration,
-        // ),
-        // PageViewModel(
-        //   title: "Title of last page - reversed",
-        //   bodyWidget: Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: const [
-        //       Text("Click on ", style: bodyStyle),
-        //       Icon(Icons.edit),
-        //       Text(" to edit a post", style: bodyStyle),
-        //     ],
-        //   ),
-        //   decoration: pageDecoration.copyWith(
-        //     bodyFlex: 2,
-        //     imageFlex: 4,
-        //     bodyAlignment: Alignment.bottomCenter,
-        //     imageAlignment: Alignment.topCenter,
-        //   ),
-        //   image: _buildImage('img1.jpg'),
-        //   reverse: true,
-        // ),
       ],
       onDone: () => _onIntroEnd(context),
       //onSkip: () => _onIntroEnd(context), // You can override onSkip callback
@@ -167,9 +128,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       showBackButton: true,
       //rtl: true, // Display as right-to-left
       back: const Icon(Icons.arrow_back),
-      skip: const Text('Skip', style: TextStyle(fontWeight: FontWeight.w600)),
+      skip: const Text('Skip',
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.indigo)),
       next: const Icon(Icons.arrow_forward),
-      done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
+      done: const Text('Done',
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.indigo)),
       curve: Curves.fastLinearToSlowEaseIn,
       controlsMargin: const EdgeInsets.all(16),
       controlsPadding: kIsWeb
@@ -184,7 +147,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         ),
       ),
       dotsContainerDecorator: const ShapeDecoration(
-        color: Color.fromRGBO(144, 202, 249, 0.5),
+        color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),
